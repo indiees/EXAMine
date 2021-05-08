@@ -1,0 +1,6 @@
+Flask==1.1.2
+awscli==1.19.53
+boto3==1.17.53
+requests==2.25.0
+Flask-Session==0.3.2
+gunicorn==20.0.4

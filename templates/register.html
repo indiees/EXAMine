@@ -1,0 +1,32 @@
+{% extends "index.html" -%}
+{% block content %}
+
+<h1>Registration</h1>
+
+<form class="login container" enctype="multipart/form-data" action="register_process" method="post">
+
+    <div class="login-field">
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" required>
+    </div>
+
+    <div class="login-field">
+        <label for="id"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+    </div>
+
+    <div class="login-field">
+        <label for="password"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+    </div>
+
+    <div class="login-field">
+        <button type="submit">Register</button>
+    </div>
+</form>
+
+<div class="container">
+    <label>Already have an account? <a href='login'>Login here</a></label>
+</div>
+
+{% endblock content %}

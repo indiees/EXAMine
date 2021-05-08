@@ -1,0 +1,67 @@
+{% extends "index.html" -%}
+{% block content %}
+
+<div class="container">
+    <h1>Welcome back {{ user['user_name'] }}!</h1>
+</div>
+
+<div class="container flex-row">
+    <div class="container userLHS" style="padding-top: 0px; padding-bottom: 0px; margin-top: 0px; margin-bottom: 0px;">
+        <h2>{{ header }}</h2>
+        {% for song in songs %}
+        <div class="container dark">
+            <div class="flex-row" style="justify-content: flex-end; margin-bottom: 10px;">
+                <form action="remove_song" method="post">
+                    <input type="hidden" name="title" value="{{ song['title'] }}">
+                    <input style="font-family: FontAwesome" class="icon-input" value="" type="submit">
+                </form>
+            </div>
+            <div class="flex-row" style="justify-content: space-between;">
+                <div>
+                    <h2>{{ song['title'] }}</h2>
+                    <span>{{ song['artist'] }} ({{ song['year'] }})</span>
+                </div>
+                <img class='pfp' src="{{ song['image_url'] }}"/>
+            </div>
+        </div>
+        {% endfor %}
+        {% for song in searchsongs %}
+        <div class="container dark">
+            <div class="flex-row" style="justify-content: flex-end; margin-bottom: 10px;">
+                <form action="add_song" method="post">
+                    <input type="hidden" name="title" value="{{ song['title'] }}">
+                    <input style="font-family:'Open Sans Condensed', sans-serif;" type="submit" value="subscribe" class="icon-input">
+                </form>
+            </div>
+            <div class="flex-row" style="justify-content: space-between;">
+                <div>
+                    <h2>{{ song['title'] }}</h2>
+                    <span>{{ song['artist'] }} ({{ song['year'] }})</span>
+                </div>
+                <img class='pfp' src="{{ song['image_url'] }}"/>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="container dark userRHS">
+        <h2>Search for songs</h2>
+        <form action="user" method="post">
+            <div class="login-field flex-row" style="justify-content: space-between">
+                <label for="title"><b>Title</b></label>
+                <input type="text" placeholder="Song title" name="title">
+            </div>
+            <div class="login-field flex-row" style="justify-content: space-between">
+                <label for="artist"><b>Artist</b></label>
+                <input type="text" placeholder="Song artist" name="artist">
+            </div>
+            <div class="login-field flex-row" style="justify-content: space-between">
+                <label for="year"><b>Year</b></label>
+                <input type="text" placeholder="Song year" name="year">
+            </div>
+            <div class="login-field flex-row" style="justify-content: flex-end">
+                <button type="submit">Query</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

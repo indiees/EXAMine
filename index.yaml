@@ -1,0 +1,21 @@
+indexes:
+
+- kind: user
+  ancestor: yes
+  properties:
+  - name: user_name
+    direction: desc
+  - name: password
+    direction: desc
+  - name: image
+    direction: desc
+
+- kind: message
+  ancestor: yes
+  properties:
+  - name: subject
+  - name: message
+  - name: image
+  - name: datetime
+    direction: desc
+  

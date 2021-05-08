@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Cloud Computing A3</title>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <script src="https://kit.fontawesome.com/1e90776cd4.js" crossorigin="anonymous"></script>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <div class="container header">
+            <h1>Cloud Computing A3 - EXAMine</h1>
+            {% if session.get('user') != None %}
+            <div class="logout"><button id="sign-out">Sign Out</button></div>
+            {% else %}
+            <div class="logout" hidden><button id="sign-out">Sign Out</button></div>
+            {% endif %}
+        </div>
+
+        <div class="content">
+            <div class="container flash">
+                Dev note - there's a few front end frameworks already enabled here, we have a set of icons we can access from <a href="https://fontawesome.com/icons?d=gallery&p=2"><b>fontawesome</b></a>,<br>
+                and a bunch of styles already defined in styles.css, which you might want to look through to see if anything's helpful.<br>
+                as for the structure of the frontend, the app is launched through main.py, which just loads up all the other pages defined in tools/pages.py, which is a definition of just each endpoint by itself<br>
+                any helper methods for performing general logic or aws integration are in tools/helpers.py, and any decorator style functions are in tools/decorators.py<br>
+                all pages are loaded within templates/index.html as a flask template that fill the rest of the container below this message.<br>
+                <br>
+                The rest of the code in this project at the time of writing is just templating leftover from my A2 so feel free to change things<br>
+                Also make sure to setup your keys from the IAM account I generated for you using "aws configure" if you haven't already or else everything will be broke
+            </div>
+            {% block content %}{% endblock content %}
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                <div class="container error">
+                    {{ message }}
+                </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+        </div>
+    </body>
+</html>
