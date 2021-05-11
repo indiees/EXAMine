@@ -1,17 +1,14 @@
 body {
-    font-family: 'Open Sans Condensed', sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 10px;
 }
 
 button {
-    font-family: 'Open Sans Condensed', sans-serif;
+    font-family: 'Arial', sans-serif;
     border-style: solid;
     background-color: #f1f1f1;
 }
 
-button:hover{
-    background-color: #d1d1d1;
-}
 
 a{
     color:inherit;
@@ -22,6 +19,7 @@ a{
     padding: 15px;
     margin-top: 10px;
     margin-bottom: 10px;
+    text-align:center;
 }
 
 .container{
@@ -62,6 +60,28 @@ a{
 
 .login-field{
     margin: 10px;
+}
+
+#loginbox, #registerbox{
+    border-radius: 10px;
+    width: 30%;
+    height: 350px;
+    text-align: center;
+    background-color: #fffbf7;
+    display: block;
+    margin: auto;
+    top: 50%; 
+    -ms-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    position: absolute;
+    left: 50%;
+
+}
+
+body{ 
+    background-image: url("background.jpg");
+    background-size: cover;
+
 }
 
 .bottom-bar{
@@ -152,4 +172,70 @@ a{
 .icon-input{
     all: initial;
     cursor: pointer;
+}
+
+.email, .password, .username{
+    border-radius: 10px;
+    padding: 5px 10px;
+    border: 3px solid rgb(245, 204, 151) 
+}
+.email:focus, .password:focus, .username:focus{
+    border: 3px solid rgb(238, 146, 25) 
+
+}
+
+*,*:focus,*:hover{
+    outline:none;
+}
+
+.loginbutton{
+    background-color: rgb(247, 156, 37);
+    border-radius: 10px;
+    color: #ffffff;
+    padding: 2px 45px; 
+    border-color: rgb(247, 156, 37);
+    font-weight: 900;
+    transition-duration: 0.25;
+}
+.loginbutton:hover{
+    background-color: rgb(248, 141, 0);
+    border-color:  rgb(248, 141, 0);
+}
+
+.register{
+    border-radius: 10px;
+    border-color: rgb(247, 156, 37);
+    background-color: #ffffff;
+    color: rgb(247, 156, 37);
+    padding: 2px 15px; 
+    transition-duration: 0.25;
+}
+.register:hover {
+    background-color:rgb(247, 156, 37);
+    color: #ffffff
+
+
+}
+.registerbutton:hover{
+    background-color: rgb(248, 141, 0);
+    border-color:  rgb(248, 141, 0);
+}
+
+.registerbutton{
+    background-color: rgb(247, 156, 37);
+    border-radius: 10px;
+    color: #ffffff;
+    padding: 2px 45px; 
+    border-color: rgb(247, 156, 37);
+    font-weight: 900;
+    transition-duration: 0.25;
+}
+
+#registerbox{
+    border-radius: 10px;
+    height: 310px;
+    text-align: center;
+    background-color: #fffbf7;
+    display: block;
+    margin: auto;
 }

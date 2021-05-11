@@ -1,27 +1,37 @@
-{% extends "index.html" -%}
+<head>
+    <title>Examine</title>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="https://kit.fontawesome.com/1e90776cd4.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 {% block content %}
 
-<h1>Login</h1>
 
-<form class="container" action="login" method="post">
-
+<form class="container" action="login" method="post" id="loginbox">
+    <img style="width:120px" src="{{ url_for('static', filename='examinelogo.png') }}"></img>
+    <br>
     <div class="login-field">
-        <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" required>
+        <input type="text" placeholder="Email" name="email" class="email" required>
     </div>
 
-    <div class="login-field">
-        <label for="password"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="password" required>
-    </div>
 
     <div class="login-field">
-        <button type="submit">Login</button>
+    
+        <input type="password" placeholder="Password" name="password" class="password" required>
     </div>
+<br>
+    <div class="login-field">
+        <button type="submit" class="loginbutton" id="login_submit">Login</button>
+    
+    </div>
+    <br>
+    No account? 
+<br>
+<br>
+<button type=button class="register" onclick='window.location="register"'>Register</button>
 </form>
 
-<div class="container">
-    <label><a href='register'>Register a new account</a></label>
-</div>
 
 {% endblock content %}
