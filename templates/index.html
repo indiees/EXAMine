@@ -9,27 +9,15 @@
         <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
-        <div class="container header">
-            <h1></h1>
-            {% if session.get('user') != None %}
-            <div class="logout"><button id="sign-out">Sign Out</button></div>
-            {% else %}
-            <div class="logout" hidden><button id="sign-out">Sign Out</button></div>
-            {% endif %}
-        </div>
-
-        <div class="content">
-            
-            {% block content %}{% endblock content %}
-            {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                {% for message in messages %}
-                <div class="container error">
-                    {{ message }}
-                </div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
-        </div>
+        {% block content %}{% endblock content %}
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+            <div class="container error">
+                {{ message }}
+            </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
     </body>
 </html>

@@ -1,6 +1,11 @@
+html {
+    height: 100%;
+}
+
 body {
     font-family: 'Arial', sans-serif;
-    margin: 10px;
+    background: url("background.jpg") no-repeat center center scroll;
+    background-size: cover;
 }
 
 button {
@@ -62,26 +67,24 @@ a{
     margin: 10px;
 }
 
-#loginbox, #registerbox{
+.submit-field{
+    margin: 25px 10px;
+}
+
+.loginbox{
     border-radius: 10px;
     width: 30%;
-    height: 350px;
+    height: auto;
     text-align: center;
     background-color: #fffbf7;
     display: block;
     margin: auto;
-    top: 50%; 
+    top: 50%;
     -ms-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
     position: absolute;
     left: 50%;
-
-}
-
-body{ 
-    background-image: url("background.jpg");
-    background-size: cover;
-
+    padding-bottom: 35px;
 }
 
 .bottom-bar{
@@ -174,14 +177,14 @@ body{
     cursor: pointer;
 }
 
-.email, .password, .username{
+.form-input{
     border-radius: 10px;
     padding: 5px 10px;
-    border: 3px solid rgb(245, 204, 151) 
+    border: 3px solid rgb(245, 204, 151)
 }
-.email:focus, .password:focus, .username:focus{
-    border: 3px solid rgb(238, 146, 25) 
 
+.form-input:focus{
+    border: 3px solid rgb(238, 146, 25)
 }
 
 *,*:focus,*:hover{
@@ -192,7 +195,7 @@ body{
     background-color: rgb(247, 156, 37);
     border-radius: 10px;
     color: #ffffff;
-    padding: 2px 45px; 
+    padding: 2px 45px;
     border-color: rgb(247, 156, 37);
     font-weight: 900;
     transition-duration: 0.25;
@@ -207,7 +210,7 @@ body{
     border-color: rgb(247, 156, 37);
     background-color: #ffffff;
     color: rgb(247, 156, 37);
-    padding: 2px 15px; 
+    padding: 2px 15px;
     transition-duration: 0.25;
 }
 .register:hover {
@@ -225,17 +228,12 @@ body{
     background-color: rgb(247, 156, 37);
     border-radius: 10px;
     color: #ffffff;
-    padding: 2px 45px; 
+    padding: 2px 45px;
     border-color: rgb(247, 156, 37);
     font-weight: 900;
     transition-duration: 0.25;
 }
 
-#registerbox{
-    border-radius: 10px;
-    height: 310px;
-    text-align: center;
-    background-color: #fffbf7;
+.block{
     display: block;
-    margin: auto;
 }

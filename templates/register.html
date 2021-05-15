@@ -1,39 +1,22 @@
-<head>
-    <title>Examine</title>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <script src="https://kit.fontawesome.com/1e90776cd4.js" crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+{% extends "index.html" -%}
 {% block content %}
 
-<form class="login container" enctype="multipart/form-data" action="register_process" method="post" id="registerbox">
+<form class="login container loginbox" enctype="multipart/form-data" action="register_process" method="post">
     <img style="width:120px" src="{{ url_for('static', filename='examinelogo.png') }}"></img>
-    
-
     <div class="login-field">
-        <input type="text" placeholder="Email" name="email" class="email" required>
+        <input type="text" placeholder="Email" name="email" class="form-input" required>
     </div>
-
     <div class="login-field">
-        <input type="text" placeholder="Username" name="username" class="username" required>
+        <input type="text" placeholder="Username" name="username" class="form-input" required>
     </div>
-
     <div class="login-field">
-        <input type="password" placeholder="Password" name="password" class="password" required>
+        <input type="password" placeholder="Password" name="password" class="form-input" required>
     </div>
-
-    <div class="login-field">
+    <div class="submit-field">
         <button type="submit" class="registerbutton" id="register_submit">Register</button>
     </div>
-
-    Have an account? 
-    <br>
-    <br>
-    <button type=button class="register" onclick='window.location="login"'>Login here</button>
-
+    <span>Have an account?</span>
+    <button type=button class="register submit-field" onclick='window.location="login"'>Login here</button>
 </form>
-
 
 {% endblock content %}
