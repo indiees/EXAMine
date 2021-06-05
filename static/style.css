@@ -48,6 +48,16 @@ a{
     color: rgb(247, 156, 37);
 }
 
+.flash-error{
+    border-radius: 10px;
+    height: auto;
+    background-color: #fffbf7;
+    display: block;
+    padding: 15px 30px;
+    border-top: 5px solid #ff7788;
+    color: #ff7788;
+}
+
 .flash{
     background-color: #e1e1ff;
     color: #6161ff;

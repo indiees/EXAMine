@@ -6,6 +6,13 @@ from tools.pages import *
 from tools.decorators import login_required
 
 app = Flask(__name__)
+
+app.secret_key = 'super secret key'
+app.config['SESSION_TYPE'] = 'filesystem'
+
+app.config.from_object(__name__)
+Session(app)
+
 app.register_blueprint(login)
 app.register_blueprint(login_process)
 app.register_blueprint(logout)
@@ -15,8 +22,7 @@ app.register_blueprint(user)
 app.register_blueprint(remove_song)
 app.register_blueprint(add_song)
 app.register_blueprint(createmusictable)
-app.register_blueprint(populatemusictable)
-app.secret_key = "supersecretkey"
+app.register_blueprint(populatemusictable)\
 
 @app.route('/')
 @login_required

@@ -11,12 +11,11 @@ def show_login():
 
 login_process = Blueprint('login_process', __name__, template_folder='templates')
 @login_process.route('/login_process', methods=['POST', 'GET'])
-@logout_required
 def show_login_process():
     if request.method == 'POST':
-        email = request.form['email']
+        username = request.form['username']
         password = request.form['password']
-        if valid_login(email, password):
+        if valid_login(username, password):
             return redirect(url_for('user.show_user'))
         else:
             return render_template('login.html')
@@ -24,8 +23,8 @@ def show_login_process():
 logout = Blueprint('logout', __name__, template_folder='templates')
 @logout.route('/logout')
 def show_logout():
-    if session.get('user') != None:
-        session.pop('user')
+    logout_helper()
+    flash('You have been logged out.', 'login')
     return redirect(url_for('login.show_login'))
 
 register = Blueprint('register', __name__, template_folder='templates')
@@ -51,8 +50,9 @@ user = Blueprint('user', __name__, template_folder='templates')
 @user.route('/user', methods=['POST', 'GET'])
 @login_required
 def show_user():
-    token = session.get('token')
-    return render_template('user.html', token=token)
+    user = query_user()
+    username = user.get('Username') if user != None else "unknown user"
+    return render_template('user.html', username=username)
 
 remove_song = Blueprint('remove_song', __name__, template_folder='templates')
 @remove_song.route('/remove_song', methods=['POST', 'GET'])

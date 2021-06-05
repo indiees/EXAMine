@@ -19,7 +19,7 @@ def valid_login(username, password):
         "password": password
     })
 
-    flash(result['message'])
+    flash(result['message'], 'login')
     if result['success']:
         login_success(result['data'])
         return True
@@ -39,21 +39,18 @@ def register_user(email, username, password):
         "password": password
     })
 
-    flash(result['message'])
+    flash(result['message'], 'login')
     return result['success']
 
-def query_user(email, dynamodb=None):
-    if not dynamodb:
-        dynamodb = boto3.resource('dynamodb')
+def logout_helper():
+    if session.get('token') != None:
+        session.clear()
 
-    table = dynamodb.Table('login')
-    response = table.query(
-        KeyConditionExpression=Key('email').eq(email)
-    )
-    if len(response['Items']) == 0:
-        return None
-    else:
-        return response['Items'][0]
+def query_user():
+    response = get_user(session.get('token')['access_token'])
+    if response['success'] == False:
+        flash(response['message'], 'error')
+    return response['data']
 
 def query_user_subscriptions(email, dynamodb=None):
     if not dynamodb:

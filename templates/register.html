@@ -20,7 +20,7 @@
         <button type=button class="register submit-field" onclick='window.location="login"'>Login here</button>
     </form>
 
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(category_filter=["login"]) %}
       {% if messages %}
         {% for message in messages %}
         <div class="container flash-message">

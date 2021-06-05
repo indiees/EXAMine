@@ -98,6 +98,21 @@ def login(user):
                    "token_type": resp["AuthenticationResult"]["TokenType"]
        }}
 
+def get_user(access_token):
+    client = boto3.client('cognito-idp')
+
+    try:
+        resp = client.get_user(
+            AccessToken=access_token
+        )
+    except Exception as e:
+        return {"success": False,
+                "message": e.__str__(),
+                "data": None}
+    return {"success": True,
+            "message": None,
+            "data": resp}
+
 def initiate_auth(client, username, password):
     try:
       resp = client.admin_initiate_auth(
