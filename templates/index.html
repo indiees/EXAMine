@@ -2,19 +2,30 @@
 <html>
     <head>
         <title>Examine</title>
-        <script src="{{ url_for('static', filename='script.js') }}"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
     </head>
     <body>
       
       {% if hideHeader is not defined %}
+      <div id=profile-modal-outer class= profile-modal-outer>
+        <div class = profile-modal>
+          <button class= view-profile> View Profile </button>
+          <button class= view-bookmark> View Bookmarked Documents </button>
+          <button class= logout> Logout</button>
+        </div>
+      </div>
+
       <div class=header>
         <a href = "/home">
-        <img style="width:120px" src="{{ url_for('static', filename='examinelogo.png') }}"></img> </a>
-          <i class = "fa-5x fa-search"></i>
+        <img style="width:120px" src="{{ url_for('static', filename='examinelogomin.png') }}"></img> </a>
+        <div class= icons>
+        <i id=profile class="fa fa-user-circle-o fa-2x" aria-hidden="true" data-testid="dsy-icon"></i>
+      </div>
       </div>
       {% endif %}
 
