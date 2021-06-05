@@ -8,6 +8,7 @@ login = Blueprint('login', __name__, template_folder='templates')
 @logout_required
 def show_login():
     error = None
+    hideHeader = True
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -15,7 +16,13 @@ def show_login():
             return login_success(email)
         else:
             flash('The user email or password is incorrect')
-    return render_template('login.html')
+    return render_template('login.html', hideHeader = True)
+
+home = Blueprint('home', __name__, template_folder='templates')
+@login.route('/home', methods=['GET'])
+def show_home():
+    error = None
+    return render_template('home.html')
 
 logout = Blueprint('logout', __name__, template_folder='templates')
 @logout.route('/logout')
@@ -28,7 +35,7 @@ register = Blueprint('register', __name__, template_folder='templates')
 @register.route('/register')
 @logout_required
 def show_register():
-    return render_template('register.html')
+    return render_template('register.html', hideHeader = True)
 
 register_process = Blueprint('register_process', __name__, template_folder='templates')
 @register_process.route('/register_process', methods=['POST', 'GET'])

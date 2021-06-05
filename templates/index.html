@@ -3,12 +3,22 @@
     <head>
         <title>Examine</title>
         <script src="{{ url_for('static', filename='script.js') }}"></script>
-        <script src="https://kit.fontawesome.com/1e90776cd4.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
+      
+      {% if hideHeader is not defined %}
+      <div class=header>
+        <a href = "/home">
+        <img style="width:120px" src="{{ url_for('static', filename='examinelogo.png') }}"></img> </a>
+          <i class = "fa-5x fa-search"></i>
+      </div>
+      {% endif %}
+
+
         {% block content %}{% endblock content %}
         {% with messages = get_flashed_messages() %}
           {% if messages %}
