@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 from boto3.dynamodb.conditions import Key, Attr
+from tools.auth import *
 import boto3
 import os
 import datetime
@@ -25,26 +26,25 @@ def login_success(email):
 
 def valid_register(email, username):
     valid = True
-    email_exists = query_user(email)
-    username_exists = scan_user_attr(key='user_name', value=username)
-    if email_exists:
-        flash(f'The email "{email}" already exists')
-        valid = False
-    if username_exists:
-        flash(f'The username "{username}" already exists')
-        valid = False
+    # email_exists = query_user(email)
+    # username_exists = scan_user_attr(key='user_name', value=username)
+    # if email_exists:
+    #     flash(f'The email "{email}" already exists')
+    #     valid = False
+    # if username_exists:
+    #     flash(f'The username "{username}" already exists')
+    #     valid = False
     return valid
 
-def register_user(email, username, password, dynamodb=None):
-    if not dynamodb:
-        dynamodb = boto3.resource('dynamodb')
-
-    table = dynamodb.Table('login')
-    table.put_item(Item={
-        'email': email,
-        'user_name': username,
-        'password': password
+def register_user(email, username, password):
+    result = signup({
+        "email": email,
+        "username": username,
+        "password": password
     })
+
+    if(result['success']):
+        flash(result['message'])
 
 def query_user(email, dynamodb=None):
     if not dynamodb:
