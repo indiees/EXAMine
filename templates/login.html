@@ -1,19 +1,31 @@
 {% extends "index.html" -%}
 {% block content %}
 
-<form class="container loginbox" action="login" method="post">
-    <img style="width:120px" src="{{ url_for('static', filename='examinelogo.png') }}"></img>
-    <div class="login-field">
-        <input type="text" placeholder="Email" name="email" class="form-input" required>
-    </div>
-    <div class="login-field">
-        <input type="password" placeholder="Password" name="password" class="form-input" required>
-    </div>
-    <div class="submit-field">
-        <button type="submit" class="loginbutton" id="login_submit">Login</button>
-    </div>
-    <span class="block">No account?</span>
-    <button type=button class="register submit-field" onclick='window.location="register"'>Register</button>
-</form>
+<div class="center-box">
+    <form class="container loginbox" action="login_process" method="post">
+        <img style="width:120px" src="{{ url_for('static', filename='examinelogo.png') }}"></img>
+        <div class="login-field">
+            <input type="text" placeholder="Email" name="email" class="form-input" required>
+        </div>
+        <div class="login-field">
+            <input type="password" placeholder="Password" name="password" class="form-input" required>
+        </div>
+        <div class="submit-field">
+            <button type="submit" class="loginbutton" id="login_submit">Login</button>
+        </div>
+        <span class="block">No account?</span>
+        <button type=button class="register submit-field" onclick='window.location="register"'>Register</button>
+    </form>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+        <div class="container flash-message">
+            {{ message }}
+        </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</div>
 
 {% endblock content %}

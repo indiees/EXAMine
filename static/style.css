@@ -38,9 +38,14 @@ a{
     background-color: #d1d1d1;
 }
 
-.error{
-    background-color: #ffe1e1;
-    color: #ff6161;
+.flash-message{
+    border-radius: 10px;
+    height: auto;
+    background-color: #fffbf7;
+    display: block;
+    padding: 15px 30px;
+    border-top: 5px solid rgb(247, 156, 37);
+    color: rgb(247, 156, 37);
 }
 
 .flash{
@@ -73,18 +78,20 @@ a{
 
 .loginbox{
     border-radius: 10px;
-    width: 30%;
     height: auto;
     text-align: center;
     background-color: #fffbf7;
     display: block;
+}
+
+.center-box{
+    width: 30%;
     margin: auto;
     top: 50%;
     -ms-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
     position: absolute;
     left: 50%;
-    padding-bottom: 35px;
 }
 
 .bottom-bar{

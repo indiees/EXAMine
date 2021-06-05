@@ -7,15 +7,19 @@ login = Blueprint('login', __name__, template_folder='templates')
 @login.route('/login', methods=['POST', 'GET'])
 @logout_required
 def show_login():
-    error = None
+    return render_template('login.html')
+
+login_process = Blueprint('login_process', __name__, template_folder='templates')
+@login_process.route('/login_process', methods=['POST', 'GET'])
+@logout_required
+def show_login_process():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
         if valid_login(email, password):
-            return login_success(email)
+            return redirect(url_for('user.show_user'))
         else:
-            flash('The user email or password is incorrect')
-    return render_template('login.html')
+            return render_template('login.html')
 
 logout = Blueprint('logout', __name__, template_folder='templates')
 @logout.route('/logout')
@@ -38,9 +42,8 @@ def show_register_process():
         email = request.form['email']
         username = request.form['username']
         password = request.form['password']
-        if valid_register(email, username):
-            register_user(email, username, password)
-            return login_success(email)
+        if register_user(email, username, password):
+            return register_success()
         else:
             return redirect(url_for('register.show_register'))
 
@@ -48,21 +51,8 @@ user = Blueprint('user', __name__, template_folder='templates')
 @user.route('/user', methods=['POST', 'GET'])
 @login_required
 def show_user():
-    user = query_user(session.get('user'))
-    songs = []
-    searchsongs = []
-    header = 'Your subscriptions'
-    if request.method == 'POST':
-        header = 'Results for search'
-        searchsongs = scan_songs(request.form['title'], request.form['artist'], request.form['year'])
-        if len(searchsongs) == 0:
-            flash('No result is retrieved. Please query again')
-    else:
-        subs = query_user_subscriptions(session.get('user'))
-        for sub in subs:
-            song = query_song(sub['title'])
-            songs.append(song)
-    return render_template('user.html', user=user, songs=songs, searchsongs=searchsongs, header=header)
+    token = session.get('token')
+    return render_template('user.html', token=token)
 
 remove_song = Blueprint('remove_song', __name__, template_folder='templates')
 @remove_song.route('/remove_song', methods=['POST', 'GET'])

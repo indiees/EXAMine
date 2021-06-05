@@ -10,14 +10,5 @@
     </head>
     <body>
         {% block content %}{% endblock content %}
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            {% for message in messages %}
-            <div class="container error">
-                {{ message }}
-            </div>
-            {% endfor %}
-          {% endif %}
-        {% endwith %}
     </body>
 </html>

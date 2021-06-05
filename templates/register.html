@@ -1,22 +1,34 @@
 {% extends "index.html" -%}
 {% block content %}
 
-<form class="login container loginbox" enctype="multipart/form-data" action="register_process" method="post">
-    <img style="width:120px" src="{{ url_for('static', filename='examinelogo.png') }}"></img>
-    <div class="login-field">
-        <input type="text" placeholder="Email" name="email" class="form-input" required>
-    </div>
-    <div class="login-field">
-        <input type="text" placeholder="Username" name="username" class="form-input" required>
-    </div>
-    <div class="login-field">
-        <input type="password" placeholder="Password" name="password" class="form-input" required>
-    </div>
-    <div class="submit-field">
-        <button type="submit" class="registerbutton" id="register_submit">Register</button>
-    </div>
-    <span class="block">Have an account?</span>
-    <button type=button class="register submit-field" onclick='window.location="login"'>Login here</button>
-</form>
+<div class="center-box">
+    <form class="login container loginbox" enctype="multipart/form-data" action="register_process" method="post">
+        <img style="width:120px" src="{{ url_for('static', filename='examinelogo.png') }}"></img>
+        <div class="login-field">
+            <input type="text" placeholder="Email" name="email" class="form-input" required>
+        </div>
+        <div class="login-field">
+            <input type="text" placeholder="Username" name="username" class="form-input" required>
+        </div>
+        <div class="login-field">
+            <input type="password" placeholder="Password" name="password" class="form-input" required>
+        </div>
+        <div class="submit-field">
+            <button type="submit" class="registerbutton" id="register_submit">Register</button>
+        </div>
+        <span class="block">Have an account?</span>
+        <button type=button class="register submit-field" onclick='window.location="login"'>Login here</button>
+    </form>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+        <div class="container flash-message">
+            {{ message }}
+        </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</div>
 
 {% endblock content %}
