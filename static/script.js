@@ -9,4 +9,3 @@ $(document).on("click", "#profile-modal-outer", function(data){
 }
 )
 
-$(document).on("click", "#search", function(data){

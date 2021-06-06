@@ -337,6 +337,11 @@ a{
 
 }
 
+.heading-content{
+    text-align:center;
+    color: #fa883c;
+}
+
 .block{
     display: block;
 }

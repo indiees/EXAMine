@@ -1,21 +1,7 @@
-from flask import Blueprint, flash, jsonify
-from tools.decorators import login_required, logout_required
-from tools.helpers import *
-import json
-
+from flask import Blueprint, render_template
 login = Blueprint('login', __name__, template_folder='templates')
 @login.route('/login', methods=['POST', 'GET'])
-@logout_required
 def show_login():
-    error = None
-    hideHeader = True
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        if valid_login(email, password):
-            return login_success(email)
-        else:
-            flash('The user email or password is incorrect')
     return render_template('login.html', hideHeader = True)
 
 home = Blueprint('home', __name__, template_folder='templates')
@@ -24,6 +10,11 @@ def show_home():
     error = None
     return render_template('home.html')
 
+register = Blueprint('register', __name__, template_folder='templates')
+@register.route('/register')
+def show_register():
+    return render_template('register.html', hideHeader = True)
+'''
 logout = Blueprint('logout', __name__, template_folder='templates')
 @logout.route('/logout')
 def show_logout():
@@ -31,11 +22,7 @@ def show_logout():
         session.pop('user')
     return redirect(url_for('login.show_login'))
 
-register = Blueprint('register', __name__, template_folder='templates')
-@register.route('/register')
-@logout_required
-def show_register():
-    return render_template('register.html', hideHeader = True)
+
 
 register_process = Blueprint('register_process', __name__, template_folder='templates')
 @register_process.route('/register_process', methods=['POST', 'GET'])
@@ -103,3 +90,4 @@ populatemusictable = Blueprint('populatemusictable', __name__, template_folder='
 def show_populatemusictable():
     populate_music_table()
     return redirect(url_for('login.show_login'))
+'''
