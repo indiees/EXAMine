@@ -13,28 +13,24 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 dynamo_client = boto3.client('dynamodb')
 s3_client = boto3.client('s3')
 
-def valid_login(email, password):
-    user = query_user(email)
-    if user:
-        if password == user['password']:
-            return True
-    return False
+def valid_login(username, password):
+    result = login({
+        "username": username,
+        "password": password
+    })
 
-def login_success(email):
-    session['user'] = email
+    flash(result['message'], 'login')
+    if result['success']:
+        login_success(result['data'])
+        return True
+    else:
+        return False
+
+def login_success(data):
+    session['token'] = data
+
+def register_success():
     return redirect(url_for('login.show_login'))
-
-def valid_register(email, username):
-    valid = True
-    # email_exists = query_user(email)
-    # username_exists = scan_user_attr(key='user_name', value=username)
-    # if email_exists:
-    #     flash(f'The email "{email}" already exists')
-    #     valid = False
-    # if username_exists:
-    #     flash(f'The username "{username}" already exists')
-    #     valid = False
-    return valid
 
 def register_user(email, username, password):
     result = signup({
@@ -43,21 +39,18 @@ def register_user(email, username, password):
         "password": password
     })
 
-    if(result['success']):
-        flash(result['message'])
+    flash(result['message'], 'login')
+    return result['success']
 
-def query_user(email, dynamodb=None):
-    if not dynamodb:
-        dynamodb = boto3.resource('dynamodb')
+def logout_helper():
+    if session.get('token') != None:
+        session.clear()
 
-    table = dynamodb.Table('login')
-    response = table.query(
-        KeyConditionExpression=Key('email').eq(email)
-    )
-    if len(response['Items']) == 0:
-        return None
-    else:
-        return response['Items'][0]
+def query_user():
+    response = get_user(session.get('token')['access_token'])
+    if response['success'] == False:
+        flash(response['message'], 'error')
+    return response['data']
 
 def query_user_subscriptions(email, dynamodb=None):
     if not dynamodb:

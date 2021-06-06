@@ -2,12 +2,23 @@ from flask import Blueprint, render_template
 login = Blueprint('login', __name__, template_folder='templates')
 @login.route('/login', methods=['POST', 'GET'])
 def show_login():
-    return render_template('login.html', hideHeader = True)
+    return render_template('login.html')
+
+login_process = Blueprint('login_process', __name__, template_folder='templates')
+@login_process.route('/login_process', methods=['POST', 'GET'])
+def show_login_process():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if valid_login(username, password):
+            return redirect(url_for('home.show_home'))
+        else:
+            return redirect(url_for('login.show_login'))
 
 home = Blueprint('home', __name__, template_folder='templates')
-@login.route('/home', methods=['GET'])
+@home.route('/home', methods=['GET'])
+@login_required
 def show_home():
-    error = None
     return render_template('home.html')
 
 register = Blueprint('register', __name__, template_folder='templates')
@@ -18,10 +29,9 @@ def show_register():
 logout = Blueprint('logout', __name__, template_folder='templates')
 @logout.route('/logout')
 def show_logout():
-    if session.get('user') != None:
-        session.pop('user')
+    logout_helper()
+    flash('You have been logged out.', 'login')
     return redirect(url_for('login.show_login'))
-
 
 
 register_process = Blueprint('register_process', __name__, template_folder='templates')
@@ -32,31 +42,10 @@ def show_register_process():
         email = request.form['email']
         username = request.form['username']
         password = request.form['password']
-        if valid_register(email, username):
-            register_user(email, username, password)
-            return login_success(email)
+        if register_user(email, username, password):
+            return register_success()
         else:
             return redirect(url_for('register.show_register'))
-
-user = Blueprint('user', __name__, template_folder='templates')
-@user.route('/user', methods=['POST', 'GET'])
-@login_required
-def show_user():
-    user = query_user(session.get('user'))
-    songs = []
-    searchsongs = []
-    header = 'Your subscriptions'
-    if request.method == 'POST':
-        header = 'Results for search'
-        searchsongs = scan_songs(request.form['title'], request.form['artist'], request.form['year'])
-        if len(searchsongs) == 0:
-            flash('No result is retrieved. Please query again')
-    else:
-        subs = query_user_subscriptions(session.get('user'))
-        for sub in subs:
-            song = query_song(sub['title'])
-            songs.append(song)
-    return render_template('user.html', user=user, songs=songs, searchsongs=searchsongs, header=header)
 
 remove_song = Blueprint('remove_song', __name__, template_folder='templates')
 @remove_song.route('/remove_song', methods=['POST', 'GET'])

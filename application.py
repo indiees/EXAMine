@@ -13,9 +13,5 @@ application.register_blueprint(register)
 def root():
     return redirect(url_for('login.show_login'))
 
-@application.route('/home')
-def home():
-    return redirect(url_for('home.show_home'))
-
 if __name__ == '__main__':
     application.run() #host='127.0.0.1', port=80, debug=True
