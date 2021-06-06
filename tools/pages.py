@@ -17,7 +17,6 @@ def show_login_process():
 
 home = Blueprint('home', __name__, template_folder='templates')
 @home.route('/home', methods=['GET'])
-@login_required
 def show_home():
     return render_template('home.html')
 
