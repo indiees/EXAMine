@@ -3,14 +3,14 @@ html {
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Helvetica', sans-serif;
     background: url("background.jpg") no-repeat center center scroll;
     background-size: cover;
     margin: 0;
 }
 
 button {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Helvetica', sans-serif;
     border-style: solid;
     background-color: #f1f1f1;
 }
@@ -361,4 +361,53 @@ a{
 
 .block{
     display: block;
+}
+
+.question{
+    background-color: #ffffff;
+    width:600px;
+    margin:25px auto;
+    padding:50px;
+    border-radius: 25px;
+    border:5px solid #fa883c;
+    
+}
+
+.answer{
+    display:none;
+    background-color: rgb(245, 204, 151);
+    border-radius: 10px;
+    padding:15px;
+}
+
+.question p{
+    border-radius: 5px;
+    transition: 0.2s;
+    padding:3px;
+}
+
+.unselected:hover{
+    background-color: rgb(247, 156, 37);
+
+}
+
+.correct-selected{
+    background-color: rgb(4, 185, 4);
+
+}
+
+.incorrect-selected{
+    background-color: rgb(248, 41, 41);
+    color: white;
+}
+
+.topline h4{
+    width:80%;
+    display:inline-block;
+}
+
+.topline i{
+    float: right;
+    margin: 10px;
+    color: #fa883c;
 }

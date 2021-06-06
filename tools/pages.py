@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 login = Blueprint('login', __name__, template_folder='templates')
 @login.route('/login', methods=['POST', 'GET'])
 def show_login():
@@ -24,6 +24,26 @@ register = Blueprint('register', __name__, template_folder='templates')
 @register.route('/register')
 def show_register():
     return render_template('register.html', hideHeader = True)
+
+question = Blueprint('question', __name__, template_folder='templates')
+@home.route('/question', methods=['GET'])
+def show_question():
+    id=request.args.get("id") #the id of question user is requesting
+    if id==None: 
+        id=1
+    print(id)
+    liked=False #setting this manually for now
+    question={ #setting this manually for now
+        "question": "Compounds that are capable of accepting electrons, such as o 2 or f2, are called what?",
+        "distractor3": "residues",
+        "distractor1": "antioxidants",
+        "distractor2": "Oxygen",
+        "correct_answer": "oxidants",
+        "support": "Oxidants and Reductants Compounds that are capable of accepting electrons, such as O 2 or F2, are calledoxidants (or oxidizing agents) because they can oxidize other compounds. In the process of accepting electrons, an oxidant is reduced. Compounds that are capable of donating electrons, such as sodium metal or cyclohexane (C6H12), are calledreductants (or reducing agents) because they can cause the reduction of another compound. In the process of donating electrons, a reductant is oxidized. These relationships are summarized in Equation 3.30: Equation 3.30 Saylor URL: http://www. saylor. org/books."
+    }
+    for field in question: 
+        question[field]=question[field][0].upper()+question[field][1:]
+    return render_template('question.html', question=question, liked=liked)
 '''
 logout = Blueprint('logout', __name__, template_folder='templates')
 @logout.route('/logout')

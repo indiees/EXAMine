@@ -9,3 +9,28 @@ $(document).on("click", "#profile-modal-outer", function(data){
 }
 )
 
+$(document).on("click", ".question", function(data){
+   // $(".answer").show()
+})
+
+$(document).on("click", ".question p", function(data){
+   if (data.target.classList.contains("correct")){
+       data.target.classList.add("correct-selected")
+       $(".answer").show()
+   }else{
+       data.target.classList.add("incorrect-selected")
+   }
+   data.target.classList.remove("unselected")
+})
+
+$(document).on("click", "#thumbs-up", function(data){
+    //this should send a message to the server to add an entry to dynamodb
+    $("#thumbs-up-selected").show()
+    $("#thumbs-up").hide()
+ })
+
+ $(document).on("click", "#thumbs-up-selected", function(data){
+     //this should send a message to the server to remove an entry from dynamodb
+    $("#thumbs-up").show()
+    $("#thumbs-up-selected").hide()
+ })
