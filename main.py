@@ -15,14 +15,11 @@ Session(app)
 
 app.register_blueprint(login)
 app.register_blueprint(login_process)
+app.register_blueprint(home)
 app.register_blueprint(logout)
 app.register_blueprint(register)
 app.register_blueprint(register_process)
 app.register_blueprint(user)
-app.register_blueprint(remove_song)
-app.register_blueprint(add_song)
-app.register_blueprint(createmusictable)
-app.register_blueprint(populatemusictable)\
 
 @app.route('/')
 @login_required
