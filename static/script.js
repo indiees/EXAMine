@@ -27,10 +27,12 @@ $(document).on("click", "#thumbs-up", function(data){
     //this should send a message to the server to add an entry to dynamodb
     $("#thumbs-up-selected").show()
     $("#thumbs-up").hide()
+    window.location.replace("/question/"+ questionID +  "/like")  
  })
 
  $(document).on("click", "#thumbs-up-selected", function(data){
      //this should send a message to the server to remove an entry from dynamodb
     $("#thumbs-up").show()
     $("#thumbs-up-selected").hide()
+    window.location.replace("/question/"+ questionID + "/unlike")
  })

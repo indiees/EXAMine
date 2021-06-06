@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template, request
+import boto3, uuid
+from flask import Blueprint, render_template, request, redirect, url_for
+from boto3.dynamodb.conditions import Key
 login = Blueprint('login', __name__, template_folder='templates')
 @login.route('/login', methods=['POST', 'GET'])
 def show_login():
@@ -26,11 +28,8 @@ def show_register():
     return render_template('register.html', hideHeader = True)
 
 question = Blueprint('question', __name__, template_folder='templates')
-@home.route('/question', methods=['GET'])
-def show_question():
-    id=request.args.get("id") #the id of question user is requesting
-    if id==None: 
-        id=1
+@question.route('/question/<questionID>', methods=['GET'])
+def show_question(questionID=1):
     print(id)
     liked=False #setting this manually for now
     question={ #setting this manually for now
@@ -43,7 +42,36 @@ def show_question():
     }
     for field in question: 
         question[field]=question[field][0].upper()+question[field][1:]
-    return render_template('question.html', question=question, liked=liked)
+    return render_template('question.html', question=question, questionID=questionID, liked=liked)
+
+@question.route("/question/<questionID>/like")
+def like_question (questionID):
+    print("liking question:" + questionID)
+    dynamodb=boto3.resource("dynamodb")
+    table=dynamodb.Table("likes")
+    response=table.put_item(
+        Item={
+            "questionID": questionID,
+            "userID": 1, #manual for now
+            "ID": uuid.uuid1().hex
+        }
+    )
+    print(response)
+    return redirect(url_for('question.show_question', questionID=questionID))
+
+@question.route("/question/<questionID>/unlike")
+def unlike_question (questionID):
+    print("unliking question:" + questionID)
+    dynamodb=boto3.resource("dynamodb")
+    table=dynamodb.Table("likes")
+
+    response=table.query(
+        KeyConditionExpression=Key("userID").eq("1") & Key("questionID").eq(str(questionID))
+    )
+    print(response["Items"])
+    
+    return redirect(url_for('question.show_question', questionID=questionID))
+
 '''
 logout = Blueprint('logout', __name__, template_folder='templates')
 @logout.route('/logout')
