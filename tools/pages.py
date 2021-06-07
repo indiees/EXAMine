@@ -1,4 +1,4 @@
-import boto3, uuid
+import boto3
 from flask import Blueprint, render_template, request, redirect, url_for
 from boto3.dynamodb.conditions import Key
 login = Blueprint('login', __name__, template_folder='templates')
@@ -22,7 +22,7 @@ home = Blueprint('home', __name__, template_folder='templates')
 def show_home():
     popular_questions=[]
     popular_questions_IDs=[]
-    dynamodb=boto3.resource("dynamodb")
+    dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
     table=dynamodb.Table("likes")
     pop={
         "1":0,
@@ -59,7 +59,6 @@ def show_home():
                 
             }
         )
-
     return render_template('home.html' ,questions=popular_questions)
 
 register = Blueprint('register', __name__, template_folder='templates')
@@ -71,7 +70,7 @@ question = Blueprint('question', __name__, template_folder='templates')
 @question.route('/question/<questionID>', methods=['GET'])
 def show_question(questionID=1):
     print(id)
-    dynamodb=boto3.resource("dynamodb")
+    dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
     table=dynamodb.Table("likes")
     response=table.query(
         IndexName="userID-index",
@@ -96,7 +95,7 @@ def show_question(questionID=1):
 @question.route("/question/<questionID>/like")
 def like_question (questionID):
     print("liking question:" + questionID)
-    dynamodb=boto3.resource("dynamodb")
+    dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
     table=dynamodb.Table("likes")
     response=table.put_item(
         Item={
@@ -111,7 +110,7 @@ def like_question (questionID):
 @question.route("/question/<questionID>/unlike")
 def unlike_question (questionID):
     print("unliking question:" + questionID)
-    dynamodb=boto3.resource("dynamodb")
+    dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
     table=dynamodb.Table("likes")
 
     response=table.query(
@@ -135,7 +134,7 @@ liked_questions = Blueprint('liked_questions', __name__, template_folder='templa
 @liked_questions.route('/liked_questions', methods=['GET'])
 def show_liked_questions():
     questions=[]
-    dynamodb=boto3.resource("dynamodb")
+    dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
     table=dynamodb.Table("likes")
 
     response=table.query(
