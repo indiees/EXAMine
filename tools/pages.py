@@ -31,7 +31,16 @@ question = Blueprint('question', __name__, template_folder='templates')
 @question.route('/question/<questionID>', methods=['GET'])
 def show_question(questionID=1):
     print(id)
-    liked=False #setting this manually for now
+    dynamodb=boto3.resource("dynamodb")
+    table=dynamodb.Table("likes")
+    response=table.query(
+        IndexName="userID-index",
+        KeyConditionExpression=Key("userID").eq("1") 
+    )
+    liked=False 
+    for item in response ["Items"]:
+        if item["questionID"]==questionID:
+            liked=True
     question={ #setting this manually for now
         "question": "Compounds that are capable of accepting electrons, such as o 2 or f2, are called what?",
         "distractor3": "residues",
@@ -51,8 +60,8 @@ def like_question (questionID):
     table=dynamodb.Table("likes")
     response=table.put_item(
         Item={
-            "questionID": questionID,
-            "userID": 1, #manual for now
+            "questionID": str(questionID),
+            "userID": "1", #manual for now
             "ID": uuid.uuid1().hex
         }
     )
@@ -66,9 +75,19 @@ def unlike_question (questionID):
     table=dynamodb.Table("likes")
 
     response=table.query(
-        KeyConditionExpression=Key("userID").eq("1") & Key("questionID").eq(str(questionID))
+        IndexName="userID-index",
+        KeyConditionExpression=Key("userID").eq("1") 
     )
     print(response["Items"])
+    with table.batch_writer()as batch:
+        for item in response["Items"]:
+            if item["questionID"]==questionID:
+
+                batch.delete_item(
+                    Key={
+                        "ID":item["ID"]
+                    }
+                )
     
     return redirect(url_for('question.show_question', questionID=questionID))
 
