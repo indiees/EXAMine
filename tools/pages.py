@@ -20,7 +20,47 @@ def show_login_process():
 home = Blueprint('home', __name__, template_folder='templates')
 @home.route('/home', methods=['GET'])
 def show_home():
-    return render_template('home.html')
+    popular_questions=[]
+    popular_questions_IDs=[]
+    dynamodb=boto3.resource("dynamodb")
+    table=dynamodb.Table("likes")
+    pop={
+        "1":0,
+        "2":0,
+        "3":0,
+        "4":0,
+        "5":0,
+    }
+    response=table.scan()
+    #calculating popularity of all items
+    for item in response ["Items"]:
+        if item["questionID"] in pop:
+            pop[item["questionID"]]+=1
+        else:
+            pop[item["questionID"]]=1 
+    print(pop)
+    for i in range(0,5):
+        max_key=max(pop, key=pop.get)
+        popular_questions_IDs.append(
+            {
+                "questionID": max_key,
+                "num_likes": pop[max_key]
+            }
+        )
+        pop.pop(max_key)
+    print(popular_questions_IDs)
+    for question in popular_questions_IDs:
+        print(question)
+        popular_questions.append(
+            {
+                "questionID": question["questionID"],
+                "num_likes": question["num_likes"],
+                "question": "question "+ question["questionID"]  #manual for now
+                
+            }
+        )
+
+    return render_template('home.html' ,questions=popular_questions)
 
 register = Blueprint('register', __name__, template_folder='templates')
 @register.route('/register')
@@ -90,6 +130,29 @@ def unlike_question (questionID):
                 )
     
     return redirect(url_for('question.show_question', questionID=questionID))
+
+liked_questions = Blueprint('liked_questions', __name__, template_folder='templates')
+@liked_questions.route('/liked_questions', methods=['GET'])
+def show_liked_questions():
+    questions=[]
+    dynamodb=boto3.resource("dynamodb")
+    table=dynamodb.Table("likes")
+
+    response=table.query(
+        IndexName="userID-index",
+        KeyConditionExpression=Key("userID").eq("1") 
+    )
+    for item in response ["Items"]:
+        questions.append(
+            {
+                "question": "question " + item ["questionID"], 
+                "questionID": item ["questionID"],
+            }
+
+        )
+    return render_template('liked_questions.html', questions=questions);
+
+
 
 '''
 logout = Blueprint('logout', __name__, template_folder='templates')

@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+{% block content %}
+{% include "partials/header.html" %}
+<h1 class= heading-content> Liked Questions
+</h1>
+<div>
+    {% for question in questions %}
+        <div class= question-preview id={{question.questionID}}>
+            <button id={{question.questionID}}>
+                {{question.question}}
+            </button>
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}

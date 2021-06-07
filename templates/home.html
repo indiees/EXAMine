@@ -15,7 +15,16 @@
         </button>
     </form>
 </div>
-<div class=top-categories>
-    
+
+<h1 class="heading-content">Popular Questions </h1>
+
+<div>
+    {% for question in questions %}
+        <div class= question-preview id={{question.questionID}}>
+            <button id={{question.questionID}}>
+                {{question.question}}
+            </button>
+        </div>
+    {% endfor %}
 </div>
 {% endblock content %}

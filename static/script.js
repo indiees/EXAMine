@@ -9,10 +9,6 @@ $(document).on("click", "#profile-modal-outer", function(data){
 }
 )
 
-$(document).on("click", ".question", function(data){
-   // $(".answer").show()
-})
-
 $(document).on("click", ".question p", function(data){
    if (data.target.classList.contains("correct")){
        data.target.classList.add("correct-selected")
@@ -35,4 +31,13 @@ $(document).on("click", "#thumbs-up", function(data){
     $("#thumbs-up").show()
     $("#thumbs-up-selected").hide()
     window.location.replace("/question/"+ questionID + "/unlike")
+ })
+
+ $(document).on("click", "#view-liked-questions", function(data){
+   window.location="/liked_questions"
+})
+
+$(document).on("click", ".question-preview", function(data){
+    console.log(data.target)
+    window.location="/question/"+ data.target.id
  })
