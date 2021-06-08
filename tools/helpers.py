@@ -19,11 +19,11 @@ def valid_login(username, password):
         "password": password
     })
 
-    flash(result['message'], 'login')
     if result['success']:
         login_success(result['data'])
         return True
     else:
+        flash(result['message'], 'login')
         return False
 
 def login_success(data):
