@@ -10,8 +10,8 @@ import json
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-dynamo_client = boto3.client('dynamodb')
-s3_client = boto3.client('s3')
+dynamo_client = boto3.client('dynamodb', region_name="us-east-1")
+s3_client = boto3.client('s3', region_name="us-east-1")
 
 def valid_login(username, password):
     result = login({

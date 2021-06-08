@@ -2,6 +2,8 @@ import boto3
 from flask import Blueprint, render_template, request, redirect, url_for
 from boto3.dynamodb.conditions import Key
 from tools.decorators import *
+dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
+table=dynamodb.Table("likes")
 
 login = Blueprint('login', __name__, template_folder='templates')
 @login.route('/login', methods=['POST', 'GET'])
@@ -25,8 +27,6 @@ home = Blueprint('home', __name__, template_folder='templates')
 def show_home():
     popular_questions=[]
     popular_questions_IDs=[]
-    dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
-    table=dynamodb.Table("likes")
     pop={
         "1":0,
         "2":0,
@@ -74,8 +74,6 @@ question = Blueprint('question', __name__, template_folder='templates')
 @login_required
 def show_question(questionID=1):
     print(id)
-    dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
-    table=dynamodb.Table("likes")
     response=table.query(
         IndexName="userID-index",
         KeyConditionExpression=Key("userID").eq("1")
@@ -100,8 +98,6 @@ def show_question(questionID=1):
 @login_required
 def like_question (questionID):
     print("liking question:" + questionID)
-    dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
-    table=dynamodb.Table("likes")
     response=table.put_item(
         Item={
             "questionID": str(questionID),
@@ -116,9 +112,6 @@ def like_question (questionID):
 @login_required
 def unlike_question (questionID):
     print("unliking question:" + questionID)
-    dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
-    table=dynamodb.Table("likes")
-
     response=table.query(
         IndexName="userID-index",
         KeyConditionExpression=Key("userID").eq("1")
@@ -141,9 +134,6 @@ liked_questions = Blueprint('liked_questions', __name__, template_folder='templa
 @login_required
 def show_liked_questions():
     questions=[]
-    dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
-    table=dynamodb.Table("likes")
-
     response=table.query(
         IndexName="userID-index",
         KeyConditionExpression=Key("userID").eq("1")
