@@ -16,7 +16,7 @@ def signup(user):
     email = user["email"]
     password = user['password']
 
-    client = boto3.client('cognito-idp')
+    client = boto3.client('cognito-idp', region_name="us-east-1")
 
     try:
         resp = client.sign_up(
@@ -71,7 +71,7 @@ def signup(user):
             "data": None}
 
 def login(user):
-   client = boto3.client('cognito-idp')
+   client = boto3.client('cognito-idp', region_name="us-east-1")
 
    for field in ["username", "password"]:
      if user.get(field) is None:
@@ -99,7 +99,7 @@ def login(user):
        }}
 
 def get_user(access_token):
-    client = boto3.client('cognito-idp')
+    client = boto3.client('cognito-idp', region_name="us-east-1")
 
     try:
         resp = client.get_user(
