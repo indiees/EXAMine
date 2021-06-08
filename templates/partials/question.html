@@ -1,14 +1,9 @@
-{% extends "index.html" %}
-{% block content %}
 <script>
     questionID={{questionID}}
-    
 </script>
-{% include "partials/header.html" %}
 <div class=question>
-   
     <div class=topline>
-        <h4>{{question.question}}</h4>
+        <h4>{{question['question']}}</h4>
         {% if liked %}
             <i class="fa fa-thumbs-up  fa-3x" id= thumbs-up-selected aria-hidden="true"></i>
             <i class="fa fa-thumbs-o-up  fa-3x" id= thumbs-up aria-hidden="true" style="display: none"></i>
@@ -16,19 +11,14 @@
             <i class="fa fa-thumbs-up  fa-3x" id= thumbs-up-selected aria-hidden="true" style="display: none"></i>
             <i class="fa fa-thumbs-o-up  fa-3x" id= thumbs-up aria-hidden="true" ></i>
         {% endif %}
-        
-    </div> 
+    </div>
 
-    <p class=unselected>{{question.distractor1}}</p>
-    <p class=unselected>{{question.distractor2}}</p>
-    <p class=unselected>{{question.distractor3}}</p>
-    <p class="correct unselected" >{{question.correct_answer}}</p>
+    <p class=unselected>{{question['distractor1']}}</p>
+    <p class=unselected>{{question['distractor2']}}</p>
+    <p class=unselected>{{question['distractor3']}}</p>
+    <p class="correct unselected" >{{question['correct_answer']}}</p>
     <div class=answer>
-        <h4>{{question.correct_answer}}</h4>
-        <span>{{question.support}}</span>
-
-
-
+        <h4>{{question['correct_answer']}}</h4>
+        <span>{{question['support']}}</span>
     </div>
 </div>
-{% endblock content %}

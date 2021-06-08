@@ -4,7 +4,7 @@ html {
 
 body {
     font-family: 'Helvetica', sans-serif;
-    background: url("background.jpg") no-repeat center center scroll;
+    background: url("background.jpg") no-repeat center center fixed;
     background-size: cover;
     margin: 0;
 }
@@ -19,12 +19,11 @@ button {
     background-color: #f7f0e4;
     height: 40px;
     padding: 10px;
-    
+
 }
 
 .header img{
    height: 100%;
-
 }
 
 a{
@@ -268,7 +267,7 @@ a{
 
 }
 
-.search-container input{ 
+.search-container input{
     height: 25px;
     width: 0px;
     transition-duration: 0.5s;
@@ -286,7 +285,7 @@ a{
 
 .search-container:hover input{
     width: 200px;
-    
+
 }
 .search-container:hover{
     width: 240px;
@@ -338,7 +337,7 @@ a{
     border-color: #fa883c;
     background-color: #fa883c;
 
-}   
+}
 
 .logout{
     color: #fa883c;
@@ -373,28 +372,33 @@ a{
     background-color: #ffffff;
     width:600px;
     margin:25px auto;
-    padding:50px;
-    border-radius: 25px;
-    border:5px solid #fa883c;
-    
+    border-radius: 10px;
+    height: auto;
+    background-color: #fffbf7;
+    display: block;
+    padding: 15px 30px;
+    border-top: 5px solid rgb(247, 156, 37);
+    color: rgb(247, 156, 37);
+
 }
 
 .answer{
     display:none;
-    background-color: rgb(245, 204, 151);
+    background-color: rgb(255, 230, 197);
     border-radius: 10px;
-    padding:15px;
+    padding: 15px;
+    margin: 15px;
 }
 
 .question p{
-    border-radius: 5px;
     transition: 0.2s;
-    padding:3px;
+    padding:10px;
+    margin: 0px 5px;
+    border-top: 1px solid #cccccc;
 }
 
 .unselected:hover{
-    background-color: rgb(247, 156, 37);
-
+    background-color: rgb(255, 215, 162);
 }
 
 .correct-selected{
