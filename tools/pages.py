@@ -1,6 +1,8 @@
 import boto3
 from flask import Blueprint, render_template, request, redirect, url_for
 from boto3.dynamodb.conditions import Key
+from tools.decorators import *
+
 login = Blueprint('login', __name__, template_folder='templates')
 @login.route('/login', methods=['POST', 'GET'])
 def show_login():
@@ -19,6 +21,7 @@ def show_login_process():
 
 home = Blueprint('home', __name__, template_folder='templates')
 @home.route('/home', methods=['GET'])
+@login_required
 def show_home():
     popular_questions=[]
     popular_questions_IDs=[]
@@ -37,7 +40,7 @@ def show_home():
         if item["questionID"] in pop:
             pop[item["questionID"]]+=1
         else:
-            pop[item["questionID"]]=1 
+            pop[item["questionID"]]=1
     print(pop)
     for i in range(0,5):
         max_key=max(pop, key=pop.get)
@@ -56,7 +59,7 @@ def show_home():
                 "questionID": question["questionID"],
                 "num_likes": question["num_likes"],
                 "question": "question "+ question["questionID"]  #manual for now
-                
+
             }
         )
     return render_template('home.html' ,questions=popular_questions)
@@ -68,15 +71,16 @@ def show_register():
 
 question = Blueprint('question', __name__, template_folder='templates')
 @question.route('/question/<questionID>', methods=['GET'])
+@login_required
 def show_question(questionID=1):
     print(id)
     dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
     table=dynamodb.Table("likes")
     response=table.query(
         IndexName="userID-index",
-        KeyConditionExpression=Key("userID").eq("1") 
+        KeyConditionExpression=Key("userID").eq("1")
     )
-    liked=False 
+    liked=False
     for item in response ["Items"]:
         if item["questionID"]==questionID:
             liked=True
@@ -88,11 +92,12 @@ def show_question(questionID=1):
         "correct_answer": "oxidants",
         "support": "Oxidants and Reductants Compounds that are capable of accepting electrons, such as O 2 or F2, are calledoxidants (or oxidizing agents) because they can oxidize other compounds. In the process of accepting electrons, an oxidant is reduced. Compounds that are capable of donating electrons, such as sodium metal or cyclohexane (C6H12), are calledreductants (or reducing agents) because they can cause the reduction of another compound. In the process of donating electrons, a reductant is oxidized. These relationships are summarized in Equation 3.30: Equation 3.30 Saylor URL: http://www. saylor. org/books."
     }
-    for field in question: 
+    for field in question:
         question[field]=question[field][0].upper()+question[field][1:]
     return render_template('question.html', question=question, questionID=questionID, liked=liked)
 
 @question.route("/question/<questionID>/like")
+@login_required
 def like_question (questionID):
     print("liking question:" + questionID)
     dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
@@ -108,6 +113,7 @@ def like_question (questionID):
     return redirect(url_for('question.show_question', questionID=questionID))
 
 @question.route("/question/<questionID>/unlike")
+@login_required
 def unlike_question (questionID):
     print("unliking question:" + questionID)
     dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
@@ -115,7 +121,7 @@ def unlike_question (questionID):
 
     response=table.query(
         IndexName="userID-index",
-        KeyConditionExpression=Key("userID").eq("1") 
+        KeyConditionExpression=Key("userID").eq("1")
     )
     print(response["Items"])
     with table.batch_writer()as batch:
@@ -127,11 +133,12 @@ def unlike_question (questionID):
                         "ID":item["ID"]
                     }
                 )
-    
+
     return redirect(url_for('question.show_question', questionID=questionID))
 
 liked_questions = Blueprint('liked_questions', __name__, template_folder='templates')
 @liked_questions.route('/liked_questions', methods=['GET'])
+@login_required
 def show_liked_questions():
     questions=[]
     dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
@@ -139,21 +146,18 @@ def show_liked_questions():
 
     response=table.query(
         IndexName="userID-index",
-        KeyConditionExpression=Key("userID").eq("1") 
+        KeyConditionExpression=Key("userID").eq("1")
     )
     for item in response ["Items"]:
         questions.append(
             {
-                "question": "question " + item ["questionID"], 
+                "question": "question " + item ["questionID"],
                 "questionID": item ["questionID"],
             }
 
         )
     return render_template('liked_questions.html', questions=questions);
 
-
-
-'''
 logout = Blueprint('logout', __name__, template_folder='templates')
 @logout.route('/logout')
 def show_logout():
@@ -174,37 +178,3 @@ def show_register_process():
             return register_success()
         else:
             return redirect(url_for('register.show_register'))
-
-remove_song = Blueprint('remove_song', __name__, template_folder='templates')
-@remove_song.route('/remove_song', methods=['POST', 'GET'])
-@login_required
-def show_remove_song():
-    if request.method == 'POST':
-        success = delete_subscription(request.form['title'])
-        if success:
-            flash(f"{request.form['title']} deleted from subscriptions")
-    return redirect(url_for('user.show_user'))
-
-add_song = Blueprint('add_song', __name__, template_folder='templates')
-@add_song.route('/add_song', methods=['POST', 'GET'])
-@login_required
-def show_add_song():
-    if request.method == 'POST':
-        success = add_subscription(request.form['title'])
-        if success:
-            flash(f"{request.form['title']} added to subscriptions")
-    return redirect(url_for('user.show_user'))
-
-createmusictable = Blueprint('createmusictable', __name__, template_folder='templates')
-@createmusictable.route('/createmusictable')
-def show_createmusictable():
-    table = create_music_table()
-    flash("Table created")
-    return redirect(url_for('login.show_login'))
-
-populatemusictable = Blueprint('populatemusictable', __name__, template_folder='templates')
-@populatemusictable.route('/populatemusictable')
-def show_populatemusictable():
-    populate_music_table()
-    return redirect(url_for('login.show_login'))
-'''

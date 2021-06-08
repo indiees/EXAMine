@@ -7,12 +7,8 @@ def login_required(f):
     @wraps(f)
     def login_decorator(*args, **kwargs):
         if session.get('token') == None:
-            flash('hi?')
-            print('hi?')
             return redirect(url_for('login.show_login'))
         if get_user(session.get('token')['access_token'])['success'] != True:
-            print(session.get('token'), 'login')
-            print(get_user(session.get('token')))
             flash('Your session has expired. please log in again.', 'login')
             return redirect(url_for('login.show_login'))
         return f(*args, **kwargs)
