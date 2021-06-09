@@ -1,3 +1,4 @@
+const baseURL="https://wforpt8850.execute-api.us-east-1.amazonaws.com/"
 $(document).on("click", "#profile", function(data){
     $("#profile-modal-outer").show()
 }
@@ -27,8 +28,7 @@ $(document).on("click", "#thumbs-up", function(data){
     $("#thumbs-up."+ questionID).hide()
     $.ajax({
         type: 'GET',
-        url: baseURL + "/likeDoc?questionID="+questionID+"&userID="+userID,
-        complete: carCallback
+        url: baseURL + "likeDoc?questionID="+questionID+"&userID="+userID,
     });  
  })
 
@@ -40,8 +40,7 @@ $(document).on("click", "#thumbs-up-selected", function(data){
     $("#thumbs-up-selected." + questionID).hide()
     $.ajax({
         type: 'GET',
-        url: baseURL + "/unlikeDoc?questionID="+questionID+"&userID="+userID,
-        complete: carCallback
+        url: baseURL + "unlikeDoc?questionID="+questionID+"&userID="+userID,
     });
  })
 

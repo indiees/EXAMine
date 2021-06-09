@@ -40,7 +40,7 @@ def show_home():
         for item in response ["Items"]:
             if item["questionID"]==question["_id"]["$oid"]:
                 question["liked"]=True
-    return render_template('home.html', questions=questions)
+    return render_template('home.html', questions=questions, userID=userID)
 
 register = Blueprint('register', __name__, template_folder='templates')
 @register.route('/register')
