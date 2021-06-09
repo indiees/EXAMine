@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from boto3.dynamodb.conditions import Key
 from tools.decorators import *
 from tools.docDB import *
+from tools.dynamo import *
 dynamodb=boto3.resource("dynamodb", region_name="us-east-1")
 table=dynamodb.Table("likes")
 
@@ -98,20 +99,8 @@ liked_questions = Blueprint('liked_questions', __name__, template_folder='templa
 @liked_questions.route('/liked_questions', methods=['GET'])
 @login_required
 def show_liked_questions():
-    questions=[]
-    response=table.query(
-        IndexName="userID-index",
-        KeyConditionExpression=Key("userID").eq("1")
-    )
-    for item in response ["Items"]:
-        questions.append(
-            {
-                "question": "question " + item ["questionID"],
-                "questionID": item ["questionID"],
-            }
-
-        )
-    return render_template('liked_questions.html', questions=questions);
+    questions = get_liked_questions()
+    return render_template('liked_questions.html', questions=questions)
 
 logout = Blueprint('logout', __name__, template_folder='templates')
 @logout.route('/logout')
