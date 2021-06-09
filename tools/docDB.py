@@ -61,5 +61,5 @@ def query_doc_ids(q_ids):
     )
 
     payload = json.loads(resp["Payload"].read())
-    print(payload)
+    
     return json.loads(payload['body'])

@@ -100,7 +100,8 @@ liked_questions = Blueprint('liked_questions', __name__, template_folder='templa
 @login_required
 def show_liked_questions():
     questions = get_liked_questions()
-    return render_template('liked_questions.html', questions=questions)
+    user = query_user()
+    return render_template('liked_questions.html', questions=questions, user=user)
 
 logout = Blueprint('logout', __name__, template_folder='templates')
 @logout.route('/logout')
