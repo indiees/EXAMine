@@ -21,3 +21,17 @@ def query_docs(limitNo):
     payload = json.loads(resp["Payload"].read())
 
     return json.loads(payload['body'])
+
+def query_doc_id(id):
+    client = boto3.client('lambda', region_name="us-east-1")
+
+    resp = client.invoke(
+        FunctionName="queryDocByID",
+        Payload=json.dumps({
+            "question_id": id
+        })
+    )
+
+    payload = json.loads(resp["Payload"].read())
+
+    return json.loads(payload['body'])
