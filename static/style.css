@@ -402,12 +402,12 @@ a{
 }
 
 .correct-selected{
-    background-color: rgb(4, 185, 4);
+    background-color: rgb(194, 255, 152);
 
 }
 
 .incorrect-selected{
-    background-color: rgb(248, 41, 41);
+    background-color: rgb(253, 88, 106);
     color: white;
 }
 
