@@ -1,11 +1,16 @@
 {% extends "index.html" %}
 {% block content %}
+
 {% include "partials/header.html" %}
-<h1 class= heading-content> Liked Questions
-</h1>
+
+<div class="heading-content">
+    <h1 class="heading-content">Your liked questions</h1>
+    <h3 class="heading-subtitle">Questions liked by {{user['Username']}}</h3>
+</div>
+
 <div>
     {% for question in questions %}
-        {% with question=question, origin="/home" %}
+        {% with question=question, userID=userID %}
             {% include "partials/question.html" %}
         {% endwith %}
     {% endfor %}
