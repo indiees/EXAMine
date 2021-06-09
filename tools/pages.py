@@ -1,4 +1,5 @@
-import boto3
+import boto3 , uuid, requests
+from tools.helpers import *
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from boto3.dynamodb.conditions import Key
 from tools.decorators import *
@@ -26,7 +27,8 @@ home = Blueprint('home', __name__, template_folder='templates')
 @home.route('/home', methods=['GET'])
 @login_required
 def show_home():
-    questions = query_docs(10)
+    questions=requests.get("https://73l3jdpqz2.execute-api.us-east-1.amazonaws.com/queryDocs").json()
+    userID=query_user()["UserAttributes"][0]["Value"]
     # popular_questions=[]
     # popular_questions_IDs=[]
     # pop={
@@ -64,6 +66,15 @@ def show_home():
     #
     #         }
     #     )
+    for question in questions:
+        response=table.query(
+            IndexName="userID-index",
+            KeyConditionExpression=Key("userID").eq(userID)
+        )
+        question["liked"]=False
+        for item in response ["Items"]:
+            if item["questionID"]==question["_id"]["$oid"]:
+                question["liked"]=True
     return render_template('home.html' ,questions=questions)
 
 register = Blueprint('register', __name__, template_folder='templates')
@@ -99,26 +110,26 @@ def show_question(questionID=1):
 @question.route("/question/<questionID>/like")
 @login_required
 def like_question (questionID):
+    userID=query_user()["UserAttributes"][0]["Value"]
     print("liking question:" + questionID)
     response=table.put_item(
         Item={
             "questionID": str(questionID),
-            "userID": "1", #manual for now
+            "userID": userID, 
             "ID": uuid.uuid1().hex
         }
     )
-    print(response)
-    return redirect(url_for('question.show_question', questionID=questionID))
+    return redirect (request.args.get("origin"))
 
 @question.route("/question/<questionID>/unlike")
 @login_required
 def unlike_question (questionID):
+    userID=query_user()["UserAttributes"][0]["Value"]
     print("unliking question:" + questionID)
     response=table.query(
         IndexName="userID-index",
-        KeyConditionExpression=Key("userID").eq("1")
+        KeyConditionExpression=Key("userID").eq(userID)
     )
-    print(response["Items"])
     with table.batch_writer()as batch:
         for item in response["Items"]:
             if item["questionID"]==questionID:
@@ -129,16 +140,17 @@ def unlike_question (questionID):
                     }
                 )
 
-    return redirect(url_for('question.show_question', questionID=questionID))
+    return redirect (request.args.get("origin"))
 
 liked_questions = Blueprint('liked_questions', __name__, template_folder='templates')
 @liked_questions.route('/liked_questions', methods=['GET'])
 @login_required
 def show_liked_questions():
+    userID=query_user()["UserAttributes"][0]["Value"]
     questions=[]
     response=table.query(
         IndexName="userID-index",
-        KeyConditionExpression=Key("userID").eq("1")
+        KeyConditionExpression=Key("userID").eq(userID)
     )
     for item in response ["Items"]:
         questions.append(

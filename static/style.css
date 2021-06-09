@@ -362,6 +362,13 @@ a{
 .heading-content{
     text-align:center;
     color: #fa883c;
+    color:#ffffff;
+}
+
+.heading-content .heading-content{
+    display: block;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 .block{
@@ -403,6 +410,7 @@ a{
 
 .correct-selected{
     background-color: rgb(4, 185, 4);
+    color: black
 
 }
 
@@ -442,4 +450,11 @@ a{
 
 .question-preview:last-child button{
     border-radius: 0px 0px 15px 15px;
+}
+
+.section{
+    width: 100%;
+    background-color: #fa883c;
+
+
 }

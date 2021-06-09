@@ -2,7 +2,7 @@
 {% block content %}
 
 {% include "partials/header.html" %}
-
+<div class= "section">
 <div class="heading-content">
     <h1 class="heading-content">Download documents </h1>
     <h3 class="heading-subtitle">Exam preperation documents for any topic</h3>
@@ -15,12 +15,12 @@
         </button>
     </form>
 </div>
-
+</div>
 <h1 class="heading-content">Popular Questions</h1>
 
 <div>
     {% for question in questions %}
-        {% with question=question %}
+        {% with question=question, origin="/home" %}
             {% include "partials/question.html" %}
         {% endwith %}
     {% endfor %}

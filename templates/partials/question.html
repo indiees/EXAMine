@@ -1,23 +1,27 @@
-<script>
-    questionID={{questionID}}
-</script>
 <div class=question>
     <div class=topline>
         <h4>{{question['question']}}</h4>
-        {% if liked %}
-            <i class="fa fa-thumbs-up  fa-3x" id= thumbs-up-selected aria-hidden="true"></i>
-            <i class="fa fa-thumbs-o-up  fa-3x" id= thumbs-up aria-hidden="true" style="display: none"></i>
+        {% if question["liked"] %}
+            <i origin={{origin}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-up  fa-3x" id= thumbs-up-selected aria-hidden="true"></i>
+            <i origin={{origin}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-o-up  fa-3x" id= thumbs-up aria-hidden="true" style="display: none"></i>
         {% else %}
-            <i class="fa fa-thumbs-up  fa-3x" id= thumbs-up-selected aria-hidden="true" style="display: none"></i>
-            <i class="fa fa-thumbs-o-up  fa-3x" id= thumbs-up aria-hidden="true" ></i>
+            <i origin={{origin}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-up  fa-3x" id= thumbs-up-selected aria-hidden="true" style="display: none"></i>
+            <i origin={{origin}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-o-up  fa-3x" id= thumbs-up aria-hidden="true" ></i>
         {% endif %}
     </div>
 
-    <p class=unselected>{{question['distractor1']}}</p>
-    <p class=unselected>{{question['distractor2']}}</p>
-    <p class=unselected>{{question['distractor3']}}</p>
-    <p class="correct unselected" >{{question['correct_answer']}}</p>
-    <div class=answer>
+    {% set current= range(0,4)|random %}
+    
+    {% for i in range(4) %}
+        
+        {% if (i + current) %4==0 %}
+            <p questionID={{question ["_id"]["$oid"]}} class="correct unselected" >{{question['correct_answer']}}</p>
+        {% else %}
+            <p questionID={{question ["_id"]["$oid"]}} class=unselected>{{question['distractor'+(((i + current) %4)|string)]}}</p>
+        {% endif %}
+        
+    {% endfor %}
+    <div id= {{ "answer_" + question ["_id"]["$oid"]  }} class=answer>
         <h4>{{question['correct_answer']}}</h4>
         <span>{{question['support']}}</span>
     </div>
