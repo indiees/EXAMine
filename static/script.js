@@ -22,19 +22,27 @@ $(document).on("click", ".question p", function(data){
 $(document).on("click", "#thumbs-up", function(data){
     //this should send a message to the server to add an entry to dynamodb
     questionID= data.target.getAttribute("questionID")
-    origin=data.target.getAttribute("origin")
+    userID= data.target.getAttribute("userID")
     $("#thumbs-up-selected." + questionID).show()
     $("#thumbs-up."+ questionID).hide()
-    window.location.replace("/question/"+ questionID +  "/like?origin=" + origin)  
+    $.ajax({
+        type: 'GET',
+        url: baseURL + "/likeDoc?questionID="+questionID+"&userID="+userID,
+        complete: carCallback
+    });  
  })
 
 $(document).on("click", "#thumbs-up-selected", function(data){
     //this should send a message to the server to remove an entry from dynamodb
     questionID= data.target.getAttribute("questionID")
-    origin=data.target.getAttribute("origin")
+    userID= data.target.getAttribute("userID")
     $("#thumbs-up." + questionID).show()
     $("#thumbs-up-selected." + questionID).hide()
-    window.location.replace("/question/"+ questionID + "/unlike?origin=" + origin)
+    $.ajax({
+        type: 'GET',
+        url: baseURL + "/unlikeDoc?questionID="+questionID+"&userID="+userID,
+        complete: carCallback
+    });
  })
 
  $(document).on("click", "#view-liked-questions", function(data){

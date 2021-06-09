@@ -2,11 +2,11 @@
     <div class=topline>
         <h4>{{question['question']}}</h4>
         {% if question["liked"] %}
-            <i origin={{origin}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-up  fa-3x" id= thumbs-up-selected aria-hidden="true"></i>
-            <i origin={{origin}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-o-up  fa-3x" id= thumbs-up aria-hidden="true" style="display: none"></i>
+            <i userID={{userID}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-up  fa-3x" id= thumbs-up-selected aria-hidden="true"></i>
+            <i userID={{userID}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-o-up  fa-3x" id= thumbs-up aria-hidden="true" style="display: none"></i>
         {% else %}
-            <i origin={{origin}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-up  fa-3x" id= thumbs-up-selected aria-hidden="true" style="display: none"></i>
-            <i origin={{origin}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-o-up  fa-3x" id= thumbs-up aria-hidden="true" ></i>
+            <i userID={{userID}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-up  fa-3x" id= thumbs-up-selected aria-hidden="true" style="display: none"></i>
+            <i userID={{userID}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-o-up  fa-3x" id= thumbs-up aria-hidden="true" ></i>
         {% endif %}
     </div>
 

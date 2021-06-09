@@ -67,6 +67,7 @@ def show_home():
     #         }
     #     )
     for question in questions:
+        print(question)
         response=table.query(
             IndexName="userID-index",
             KeyConditionExpression=Key("userID").eq(userID)
@@ -75,7 +76,7 @@ def show_home():
         for item in response ["Items"]:
             if item["questionID"]==question["_id"]["$oid"]:
                 question["liked"]=True
-    return render_template('home.html' ,questions=questions)
+    return render_template('home.html' ,questions=questions, userID=userID)
 
 register = Blueprint('register', __name__, template_folder='templates')
 @register.route('/register')
@@ -126,19 +127,6 @@ def like_question (questionID):
 def unlike_question (questionID):
     userID=query_user()["UserAttributes"][0]["Value"]
     print("unliking question:" + questionID)
-    response=table.query(
-        IndexName="userID-index",
-        KeyConditionExpression=Key("userID").eq(userID)
-    )
-    with table.batch_writer()as batch:
-        for item in response["Items"]:
-            if item["questionID"]==questionID:
-
-                batch.delete_item(
-                    Key={
-                        "ID":item["ID"]
-                    }
-                )
 
     return redirect (request.args.get("origin"))
 
