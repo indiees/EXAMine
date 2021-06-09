@@ -35,3 +35,17 @@ def query_doc_id(id):
     payload = json.loads(resp["Payload"].read())
 
     return json.loads(payload['body'])
+
+def query_most_liked_docs(limitNo):
+    client = boto3.client('lambda', region_name="us-east-1")
+
+    resp = client.invoke(
+        FunctionName="queryMostLikedDocs",
+        Payload=json.dumps({
+            "limit": limitNo
+        })
+    )
+
+    payload = json.loads(resp["Payload"].read())
+
+    return json.loads(payload['body'])

@@ -26,45 +26,8 @@ home = Blueprint('home', __name__, template_folder='templates')
 @home.route('/home', methods=['GET'])
 @login_required
 def show_home():
-    questions = query_docs(10)
-    # popular_questions=[]
-    # popular_questions_IDs=[]
-    # pop={
-    #     "1":0,
-    #     "2":0,
-    #     "3":0,
-    #     "4":0,
-    #     "5":0,
-    # }
-    # response=table.scan()
-    # #calculating popularity of all items
-    # for item in response ["Items"]:
-    #     if item["questionID"] in pop:
-    #         pop[item["questionID"]]+=1
-    #     else:
-    #         pop[item["questionID"]]=1
-    # print(pop)
-    # for i in range(0,5):
-    #     max_key=max(pop, key=pop.get)
-    #     popular_questions_IDs.append(
-    #         {
-    #             "questionID": max_key,
-    #             "num_likes": pop[max_key]
-    #         }
-    #     )
-    #     pop.pop(max_key)
-    # print(popular_questions_IDs)
-    # for question in popular_questions_IDs:
-    #     print(question)
-    #     popular_questions.append(
-    #         {
-    #             "questionID": question["questionID"],
-    #             "num_likes": question["num_likes"],
-    #             "question": "question "+ question["questionID"]  #manual for now
-    #
-    #         }
-    #     )
-    return render_template('home.html' ,questions=questions)
+    questions = query_most_liked_docs(10)
+    return render_template('home.html', questions=questions)
 
 register = Blueprint('register', __name__, template_folder='templates')
 @register.route('/register')

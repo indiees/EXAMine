@@ -422,6 +422,11 @@ a{
     color: #fa883c;
 }
 
+.topline{
+    display: flex;
+    justify-content: space-between;
+}
+
 .question-preview button{
     background-color: #ffffff;
     border:2px solid #fa883c;
