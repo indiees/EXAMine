@@ -28,18 +28,8 @@ home = Blueprint('home', __name__, template_folder='templates')
 @home.route('/home', methods=['GET'])
 @login_required
 def show_home():
-    questions = query_most_liked_docs(10)
-    userID=query_user()["UserAttributes"][0]["Value"]
-    for question in questions:
-        print(question)
-        response=table.query(
-            IndexName="userID-index",
-            KeyConditionExpression=Key("userID").eq(userID)
-        )
-        question["liked"]=False
-        for item in response ["Items"]:
-            if item["questionID"]==question["_id"]["$oid"]:
-                question["liked"]=True
+    userID = query_user()["UserAttributes"][0]["Value"]
+    questions = set_client_liked(query_most_liked_docs(10), userID)
     return render_template('home.html', questions=questions, userID=userID)
 
 register = Blueprint('register', __name__, template_folder='templates')
@@ -51,9 +41,9 @@ liked_questions = Blueprint('liked_questions', __name__, template_folder='templa
 @liked_questions.route('/liked_questions', methods=['GET'])
 @login_required
 def show_liked_questions():
-    questions = get_liked_questions()
-    user=query_user()
-    userID=user["UserAttributes"][0]["Value"]
+    user = query_user()
+    userID = user["UserAttributes"][0]["Value"]
+    questions = set_client_liked(get_liked_questions(), userID)
     return render_template('liked_questions.html', questions=questions, userID=userID, user=user)
 
 logout = Blueprint('logout', __name__, template_folder='templates')

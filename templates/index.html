@@ -11,16 +11,5 @@
     </head>
     <body>
         {% block content %}{% endblock content %}
-        {% if __name__ == '__main__' %}
-            {% with messages = get_flashed_messages(category_filter=["error"]) %}
-              {% if messages %}
-                {% for message in messages %}
-                <div class="container flash-error">
-                    {{ message }}
-                </div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
-        {% endif %}
     </body>
 </html>
