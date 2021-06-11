@@ -44,6 +44,8 @@ def show_liked_questions():
     user = query_user()
     userID = user["UserAttributes"][0]["Value"]
     questions = set_client_liked(get_liked_questions(), userID)
+    for question in questions:
+        question["liked"]=True
     return render_template('liked_questions.html', questions=questions, userID=userID, user=user)
 
 logout = Blueprint('logout', __name__, template_folder='templates')

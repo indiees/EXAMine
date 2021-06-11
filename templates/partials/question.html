@@ -2,13 +2,13 @@
     <div class=topline>
         <h4>{{question['question']}}</h4>
         <div class='flex-row'>
-            <h4>{{question['likes']}}</h4>
+            <h4 id= {{"num_likes_"+question ["_id"]["$oid"]}}>{{question['likes']}}</h4>
             {% if question["liked"] %}
-                <i userID={{userID}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-up  fa-3x" id= thumbs-up-selected aria-hidden="true"></i>
-                <i userID={{userID}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-o-up  fa-3x" id= thumbs-up aria-hidden="true" style="display: none"></i>
+                <i userID={{userID}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-up  fa-3x" id= {{'thumbs-up-selected'+question["_id"]["$oid"]}} aria-hidden="true"></i>
+                <i userID={{userID}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-o-up  fa-3x" id= {{'thumbs-up'+question["_id"]["$oid"]}} aria-hidden="true" style="display: none"></i>
             {% else %}
-                <i userID={{userID}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-up  fa-3x" id= thumbs-up-selected aria-hidden="true" style="display: none"></i>
-                <i userID={{userID}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-o-up  fa-3x" id= thumbs-up aria-hidden="true" ></i>
+                <i userID={{userID}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-up  fa-3x" id= {{'thumbs-up-selected'+question["_id"]["$oid"]}} aria-hidden="true" style="display: none"></i>
+                <i userID={{userID}} questionID={{question ["_id"]["$oid"]}} class="fa fa-thumbs-o-up  fa-3x" id= {{'thumbs-up'+question["_id"]["$oid"]}} aria-hidden="true" ></i>
             {% endif %}
         </div>
     </div>

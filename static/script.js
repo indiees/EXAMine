@@ -20,24 +20,28 @@ $(document).on("click", ".question p", function(data){
    data.target.classList.remove("unselected")
 })
 
-$(document).on("click", "#thumbs-up", function(data){
+$(document).on("click", ".fa-thumbs-o-up", function(data){
+    console.log("hello")
     //this should send a message to the server to add an entry to dynamodb
     questionID= data.target.getAttribute("questionID")
     userID= data.target.getAttribute("userID")
-    $("#thumbs-up-selected." + questionID).show()
-    $("#thumbs-up."+ questionID).hide()
+    $("#num_likes_"+questionID).text(parseInt($("#num_likes_"+questionID).text())+1)
+    $("#thumbs-up-selected" + questionID).show()
+    $("#thumbs-up"+ questionID).hide()
     $.ajax({
         type: 'GET',
         url: baseURL + "likeDoc?questionID="+questionID+"&userID="+userID,
     });  
  })
 
-$(document).on("click", "#thumbs-up-selected", function(data){
+$(document).on("click", ".fa-thumbs-up", function(data){
     //this should send a message to the server to remove an entry from dynamodb
     questionID= data.target.getAttribute("questionID")
     userID= data.target.getAttribute("userID")
-    $("#thumbs-up." + questionID).show()
-    $("#thumbs-up-selected." + questionID).hide()
+    $("#num_likes_"+questionID).text($("#num_likes_"+questionID).text()-1)
+    console.log("#thumbs-up" + questionID)
+    $("#thumbs-up" + questionID).show()
+    $("#thumbs-up-selected" + questionID).hide()
     $.ajax({
         type: 'GET',
         url: baseURL + "unlikeDoc?questionID="+questionID+"&userID="+userID,
